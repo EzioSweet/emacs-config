@@ -66,10 +66,12 @@
 (use-package eglot
   :ensure t
   :config
+  (add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) "cmake-language-server"))
   (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) "jedi-language-server"))
   (add-to-list 'eglot-server-programs '((c-mode c++-mode) "ccls"))
   (add-to-list 'eglot-server-programs '(f90-mode . ("fortls" "--lowercase_intrinsics")))
   :hook
+  (cmake-mode . eglot-ensure)
   (c-mode . eglot-ensure)
   (c++-mode . eglot-ensure)
   (python-mode . eglot-ensure)
