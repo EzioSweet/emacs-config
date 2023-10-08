@@ -9,6 +9,10 @@
 (use-package helm
   :ensure t
   :init (helm-mode))
+(use-package rust-mode
+  :ensure t)
+(use-package magit
+  :ensure t)
 (use-package amx
   :ensure t
   :init (amx-mode))
@@ -66,11 +70,13 @@
 (use-package eglot
   :ensure t
   :config
+  (add-to-list 'eglot-server-programs '(rust-mode "rust-analyzer"))
   (add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) "cmake-language-server"))
   (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) "jedi-language-server"))
   (add-to-list 'eglot-server-programs '((c-mode c++-mode) "ccls"))
   (add-to-list 'eglot-server-programs '(f90-mode . ("fortls" "--lowercase_intrinsics")))
   :hook
+  (rust-mode . eglot-ensure)
   (cmake-mode . eglot-ensure)
   (c-mode . eglot-ensure)
   (c++-mode . eglot-ensure)
@@ -82,7 +88,10 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(magit atom-one-dark-theme use-package ##)))
+ '(custom-safe-themes
+   '("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default))
+ '(package-selected-packages
+   '(smart-mode-line-atom-one-dark-theme magit atom-one-dark-theme use-package ##)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
