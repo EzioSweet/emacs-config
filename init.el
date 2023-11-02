@@ -11,6 +11,22 @@
   :init (helm-mode))
 (use-package rust-mode
   :ensure t)
+(use-package god-mode
+  :ensure t
+  :init (god-mode)
+  :bind
+  ("M-a" . god-local-mode))
+(use-package centaur-tabs
+  :ensure t
+  :demand
+  :config
+  (centaur-tabs-mode t)
+  (setq centaur-tabs-style "alternate")
+  :bind
+  ("C-<prior>" . centaur-tabs-backward)
+  ("C-<next>" . centaur-tabs-forward))
+(use-package markdown-mode
+  :ensure t)
 (use-package magit
   :ensure t)
 (use-package amx
@@ -54,7 +70,11 @@
 (use-package rainbow-delimiters
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
-
+(use-package dumb-jump
+  :ensure t
+  :config
+  (setq dumb-jump-prefer-searcher 'ag)
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 (use-package company
   :ensure t
   :init (global-company-mode)
