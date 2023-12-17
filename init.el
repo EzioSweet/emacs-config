@@ -27,6 +27,7 @@
       (goto-char (point-max))
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
+
 ;; 安装主题
 (leaf atom-one-dark-theme
   :ensure t
@@ -55,7 +56,9 @@
 (leaf neotree
   :ensure t
   :bind
-  ("<f8>" . neotree-toggle))
+  ("<f8>" . neotree-toggle)
+  :config
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 ;;输入法
 (leaf pyim
   :ensure t
@@ -87,7 +90,8 @@
   (global-lsp-bridge-mode)
   :config
   (setq lsp-bridge-c-lsp-server "ccls")
-  (setq lsp-bridge-python-lsp-server "jedi"))
+  (setq lsp-bridge-python-lsp-server "jedi")
+  (setq lsp-bridge-tex-lsp-server "texlab"))
 ;;minibuffer搜索优化
 (leaf amx
   :ensure t
@@ -144,12 +148,29 @@
   :ensure t
   :hook
   (prog-mode-hook . rainbow-delimiters-mode))
+;;pdf预览
+(leaf pdf-tools
+  :ensure t
+  :init
+  (pdf-loader-install)
+  :hook
+  (pdf-view-mode-hook . (lambda () (display-line-numbers-mode -1))))
+;;图标
+(leaf all-the-icons
+  :ensure t
+  :if (display-graphic-p))
 ;;语言相关
 (leaf markdown-mode
   :ensure t)
 (leaf rust-mode
   :ensure t)
-
+(leaf lua-mode
+  :ensure t
+  :interpreter "lua"
+  :config
+  (setq lua-indent-level 4)
+  (setq lua-indent-string-contents t)
+  (setq lua-prefix-key nil))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
