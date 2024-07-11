@@ -1,3 +1,4 @@
+
 ;; 设置主题以及一些基本的设置
 (use-package atom-one-dark-theme
   :ensure t
@@ -5,18 +6,24 @@
   (load-theme 'atom-one-dark t)
   (global-display-line-numbers-mode t)
   (package-initialize t)
-  (electric-pair-mode t))
-
+  (electric-pair-mode t)
+  (setq indent-tabs-mode nil))
+;; 设置modeline
+(use-package telephone-line
+  :ensure t
+  :config
+  (telephone-line-mode t))
 ;; minibuffer 以及 fuzzy search
 (use-package helm
   :ensure t
-  :init (helm-mode))
+  :init
+  (helm-mode t))
 
 ;; 更好的文件内搜索
 (use-package helm-ag
   :ensure t
   :init
-  (setq helm-ag-base-command "sift --no-color -n")
+  (setq helm-ag-base-command "pt -e --nocolor --nogroup")
   :bind
   ("C-s" . helm-do-ag-this-file))
 
@@ -75,8 +82,9 @@
 (use-package dashboard
   :ensure t
   :config
+  (dashboard-setup-startup-hook)
   (setq dashboard-banner-logo-title "一场闹剧，诸般烦恼，终究不过，庸人自扰。") ;; 个性签名，随读者喜好设置
-;;  (setq dashboard-projects-backend 'projectile) ;; 读者可以暂时注释掉这一行，等安装了 projectile 后再使用
+  (setq dashboard-projects-backend 'projectile) ;; 读者可以暂时注释掉这一行，等安装了 projectile 后再使用
   (setq dashboard-startup-banner 'official) ;; 也可以自定义图片
   (setq dashboard-items '((recents  . 5)   ;; 显示多少个最近文件
                           (bookmarks . 5)  ;; 显示多少个最近书签
