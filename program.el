@@ -7,6 +7,8 @@
   :ensure t)
 (use-package kotlin-mode
   :ensure t)
+(use-package meson-mode
+  :ensure t)
 (use-package js2-mode
   :ensure t
   :hook (find-file . (lambda ()
@@ -65,7 +67,8 @@
   :ensure t
   :config
   (add-to-list 'eglot-server-programs '(rust-mode "rust-analyzer"))
-  (add-to-list 'eglot-server-programs '(cmake-mode ("neocmakelsp" "stdio")))
+  (add-to-list 'eglot-server-programs '(cmake-mode . ("neocmakelsp" "stdio")))
+  (add-to-list 'eglot-server-programs '(meson-mode . ("mesonlsp" "--lsp")))
   (add-to-list 'eglot-server-programs '((c-mode c++-mode) . ("clangd" "--compile-commands-dir=build")))
   (add-to-list 'eglot-server-programs '(python-mode "jedi-language-server" ))
   (add-to-list 'eglot-server-programs '(f90-mode . ("fortls" "--lowercase_intrinsics")))
@@ -85,4 +88,5 @@
   (kotlin-mode . eglot-ensure)
   (js2-mode . eglot-ensure)
   (js2-minor-mode . eglot-ensure)
-  (typescript-mode . eglot-ensure))
+  (typescript-mode . eglot-ensure)
+  (meson-mode . eglot-ensure))
