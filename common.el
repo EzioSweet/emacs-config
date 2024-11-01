@@ -1,31 +1,20 @@
-
 ;; 设置主题以及一些基本的设置
-(use-package atom-one-dark-theme
+(use-package monokai-theme
   :ensure t
   :init
-  (load-theme 'atom-one-dark t)
-  (global-display-line-numbers-mode t)
+  (load-theme 'monokai t)
   (package-initialize t)
   (electric-pair-mode t)
-  (setq indent-tabs-mode nil))
+  (fido-vertical-mode t)
+  (setq indent-tabs-mode nil)
+  (pixel-scroll-precision-mode t)
+  :hook
+  (prog-mode . display-line-numbers-mode))
 ;; 设置modeline
 (use-package telephone-line
   :ensure t
   :config
   (telephone-line-mode t))
-;; minibuffer 以及 fuzzy search
-(use-package helm
-  :ensure t
-  :init
-  (helm-mode t))
-
-;; 更好的文件内搜索
-(use-package helm-ag
-  :ensure t
-  :init
-  (setq helm-ag-base-command "pt -e --nocolor --nogroup")
-  :bind
-  ("C-s" . helm-do-ag-this-file))
 
 ;; minibuffer 排序以及历史记录、键位提醒
 (use-package amx
@@ -46,8 +35,8 @@
   (centaur-tabs-mode t)
   (setq centaur-tabs-style "alternate")
   :bind
-  ("C-<prior>" . centaur-tabs-backward)
-  ("C-<next>" . centaur-tabs-forward))
+  ("C-<f12>" . centaur-tabs-backward)
+  ("<f12>" . centaur-tabs-forward))
 
 ;; 更好的buffer间跳转
 (use-package ace-window
@@ -59,7 +48,11 @@
     :ensure t
     :bind
     ("<f8>" . neotree-toggle))
-
+;; 更好的搜索
+(use-package ctrlf
+  :ensure t
+  :init
+  (ctrlf-mode t))
 ;; 更好的到达行首和行尾
 (use-package mwim
   :ensure t
@@ -99,3 +92,4 @@
 (use-package rainbow-delimiters
   :ensure t
   :hook (prog-mode . rainbow-delimiters-mode))
+

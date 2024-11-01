@@ -1,33 +1,22 @@
-;; 语言mode
-(use-package php-mode
-  :ensure t)
-(use-package rust-mode
-  :ensure t)
+(use-package treesit
+  :config
+  (setq treesit-font-lock-level 4)
+  (setq major-mode-remap-alist
+	'((yaml-mode . yaml-ts-mode)
+	  (bash-mode . bash-ts-mode)
+	  (js2-mode . js-ts-mode)
+	  (typescript-mode . typescript-ts-mode)
+	  (json-mode . json-ts-mode)
+	  (css-mode . css-ts-mode)
+	  (python-mode . python-ts-mode)
+	  (c-mode . c-ts-mode)
+	  (c++-mode . c++-ts-mode)))
+  (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-ts-mode))
+  (add-to-list 'auto-mode-alist '("CMakeLists\\.txt\\'" . cmake-ts-mode)))
 (use-package markdown-mode
-  :ensure t)
-(use-package kotlin-mode
   :ensure t)
 (use-package meson-mode
   :ensure t)
-(use-package js2-mode
-  :ensure t
-  :hook (find-file . (lambda ()
-                        (when (and (buffer-file-name)
-                                   (string-equal (file-name-extension buffer-file-name) "jsx"))
-                          (js2-minor-mode t)))))
-(use-package typescript-mode
-  :ensure t)
-(use-package vue-mode
-  :ensure t)
-(use-package emmet-mode
-  :ensure t
-  :hook
-  (css-mode . emmet-mode)
-  (js2-mode . emmet-mode)
-  (js2-minor-mode . emmet-mode)
-  (typescript-mode . emmet-mode)
-  :config
-  (define-key emmet-mode-keymap (kbd "M-q") 'emmet-expand-line))
 ;; 项目管理
 (use-package projectile
   :ensure t
@@ -36,12 +25,6 @@
   (projectile-mode t)
   :bind
   ("C-c C-p" . projectile-command-map))
-
-(use-package helm-projectile
-  :ensure t
-  :if (functionp 'helm)
-  :config
-  (helm-projectile-on))
 
 ;;git
 (use-package magit
@@ -66,27 +49,22 @@
 (use-package eglot
   :ensure t
   :config
-  (add-to-list 'eglot-server-programs '(rust-mode "rust-analyzer"))
-  (add-to-list 'eglot-server-programs '(cmake-mode . ("neocmakelsp" "stdio")))
+  (add-to-list 'eglot-server-programs '(rust-ts-mode "rust-analyzer"))
+  (add-to-list 'eglot-server-programs '(cmake-ts-mode . ("neocmakelsp" "stdio")))
   (add-to-list 'eglot-server-programs '(meson-mode . ("mesonlsp" "--lsp")))
-  (add-to-list 'eglot-server-programs '((c-mode c++-mode) . ("clangd" "--compile-commands-dir=build")))
-  (add-to-list 'eglot-server-programs '(python-mode "jedi-language-server" ))
+  (add-to-list 'eglot-server-programs '((c-ts-mode c++-ts-mode) . ("clangd" "--compile-commands-dir=build")))
+  (add-to-list 'eglot-server-programs '(python-ts-mode "jedi-language-server" ))
   (add-to-list 'eglot-server-programs '(f90-mode . ("fortls" "--lowercase_intrinsics")))
-  (add-to-list 'eglot-server-programs '(php-mode . ("phpactor" "language-server" "-vvv")))
-  (add-to-list 'eglot-server-programs '(kotlin-mode "kotlin-language-server"))
-  (add-to-list 'eglot-server-programs '(java-mode "jdtls"))
-  (add-to-list 'eglot-server-programs '((js2-mode typescript-mode js2-minor-mode) . ("typescript-language-server" "--stdio")))
+  (add-to-list 'eglot-server-programs '(php-ts-mode . ("phpactor" "language-server" "-vvv")))
+  (add-to-list 'eglot-server-programs '(java-ts-mode "jdtls"))
   :hook
-  (rust-mode . eglot-ensure)
-  (cmake-mode . eglot-ensure)
-  (c-mode . eglot-ensure)
-  (c++-mode . eglot-ensure)
-  (python-mode . eglot-ensure)
+  (rust-ts-mode . eglot-ensure)
+  (cmake-ts-mode . eglot-ensure)
+  (c-ts-mode . eglot-ensure)
+  (c++-ts-mode . eglot-ensure)
+  (python-ts-mode . eglot-ensure)
   (f90-mode . eglot-ensure)
-  (php-mode . eglot-ensure)
-  (java-mode . eglot-ensure)
+  (php-ts-mode . eglot-ensure)
+  (java-ts-mode . eglot-ensure)
   (kotlin-mode . eglot-ensure)
-  (js2-mode . eglot-ensure)
-  (js2-minor-mode . eglot-ensure)
-  (typescript-mode . eglot-ensure)
   (meson-mode . eglot-ensure))
